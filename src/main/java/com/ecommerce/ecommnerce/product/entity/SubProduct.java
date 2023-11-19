@@ -35,6 +35,8 @@ public class SubProduct {
 
     private String currency;
 
+    private Long stock;
+
     @Embedded
     private CreateUpdateInformation createUpdateInformation;
 }

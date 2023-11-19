@@ -68,6 +68,7 @@ public class ProductDtoConverter {
                         .price(subProductRequestDto.getPrice())
                         .currency(currencyEnum.getValue())
                         .discount(subProductRequestDto.getDiscount())
+                        .stock(subProductRequestDto.getStock())
 //                        .attributes(attributeList)
                         .product(product)
                         .build();
@@ -145,6 +146,7 @@ public class ProductDtoConverter {
                     .price(subProduct.getPrice())
                     .discount(subProduct.getDiscount())
                     .currency(subProduct.getCurrency())
+                    .stock(subProduct.getStock())
                     .attributeResponseDtoList(attributeResponseDtoList)
                     .build();
 

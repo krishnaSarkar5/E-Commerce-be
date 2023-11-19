@@ -1,6 +1,7 @@
 package com.ecommerce.ecommnerce.product.dto.request;
 
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,9 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AttributeRequestDto {
 
-
+    @NotEmpty(message = "attribute name can't be empty")
     private String attributeName;
 
+    @NotEmpty(message = "attribute value can't be empty")
     private String attributeValue;
 
 

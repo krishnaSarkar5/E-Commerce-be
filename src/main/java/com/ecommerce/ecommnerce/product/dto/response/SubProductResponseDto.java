@@ -21,6 +21,8 @@ public class SubProductResponseDto {
 
     private String currency;
 
+    private Long stock;
+
     private List<AttributeResponseDto> attributeResponseDtoList;
 
 }
