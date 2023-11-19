@@ -7,12 +7,10 @@ import com.ecommerce.ecommnerce.product.dto.request.ProductAddRequestDto;
 import com.ecommerce.ecommnerce.product.dto.response.ProductResponseDto;
 import com.ecommerce.ecommnerce.product.service.ProductService;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
@@ -28,6 +26,11 @@ public class ProductController {
         return ResponseUtil.success(product);
     }
 
+    @GetMapping("/{productId}")
+    public ResponseEntity<CommonResponse> getProductById(@PathVariable("productId") Long productId){
+        ProductResponseDto productById = productService.getProductById(productId);
+        return ResponseUtil.success(productById);
+    }
 
 
 }

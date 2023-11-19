@@ -40,6 +40,16 @@ public class ProductServiceImpl implements ProductService {
         return convertProductEntityToResponseDto(savedProduct);
     }
 
+    @Override
+    public ProductResponseDto getProductById(Long productId) {
+
+        Product productFromDB = getProductFromDB(productId);
+
+        ProductResponseDto productResponseDto = convertProductEntityToResponseDto(productFromDB);
+
+        return productResponseDto;
+    }
+
 
     private Product convertProductRequestDtoToEntity(ProductAddRequestDto requestDto){
       return   ProductDtoConverter.convertProductRequestDtoToEntity(requestDto);
@@ -51,6 +61,10 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductResponseDto convertProductEntityToResponseDto(Product product){
         return ProductDtoConverter.convertProductEntityToProductResponseDto(product);
+    }
+
+    private Product getProductFromDB(Long id){
+       return productRepository.findProductByIdAndStatus(id,Status.ACTIVE.getValue()).orElseThrow(()-> new ServiceException(ExceptionMessage.INVALID_PRODUCT_ID.getMessage()));
     }
 
 }

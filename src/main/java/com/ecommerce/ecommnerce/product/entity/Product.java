@@ -42,5 +42,6 @@ public class Product {
     private CreateUpdateInformation createUpdateInformation;
 
 
+    private Byte status;
 
 }

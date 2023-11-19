@@ -2,6 +2,7 @@ package com.ecommerce.ecommnerce.product.dtoconverter;
 
 import com.ecommerce.ecommnerce.common.enums.CurrencyEnum;
 import com.ecommerce.ecommnerce.common.enums.ExceptionMessage;
+import com.ecommerce.ecommnerce.common.enums.Status;
 import com.ecommerce.ecommnerce.common.exception.ServiceException;
 import com.ecommerce.ecommnerce.product.dto.response.AttributeResponseDto;
 import com.ecommerce.ecommnerce.product.dto.response.ProductResponseDto;
@@ -100,6 +101,7 @@ public class ProductDtoConverter {
                 .title(productAddRequestDto.getTitle())
                 .description(productAddRequestDto.getDescription())
                 .brand(productAddRequestDto.getBrand())
+                .status(Status.ACTIVE.getValue())
 //                .subProducts(subProductList)
                 .build();
 

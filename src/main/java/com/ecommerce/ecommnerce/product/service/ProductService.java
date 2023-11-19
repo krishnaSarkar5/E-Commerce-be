@@ -7,4 +7,6 @@ public interface ProductService {
 
     public ProductResponseDto createProduct(ProductAddRequestDto requestDto);
 
+    public ProductResponseDto getProductById(Long productId);
+
 }
