@@ -1,6 +1,7 @@
 package com.ecommerce.ecommnerce.product.entity;
 
 import com.ecommerce.ecommnerce.category.entity.Category;
+import com.ecommerce.ecommnerce.common.model.CreateUpdateInformation;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,9 +34,12 @@ public class Product {
     private Category category;
 
 
-    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL  , orphanRemoval = true)
+    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL  /*, orphanRemoval = true*/)
     @JsonBackReference
     private List<SubProduct> subProducts;
+
+    @Embedded
+    private CreateUpdateInformation createUpdateInformation;
 
 
 

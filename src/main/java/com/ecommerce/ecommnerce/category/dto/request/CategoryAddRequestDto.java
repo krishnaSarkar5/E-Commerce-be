@@ -1,6 +1,5 @@
 package com.ecommerce.ecommnerce.category.dto.request;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -20,7 +19,7 @@ public class CategoryAddRequestDto {
 
 //    private Long rootParentCategoryId = -1L;
 
-    private List<CategorySearchFiledRequestDto> searchFields;
+    private List<CategoryAttributeRequestDto> searchFields;
 
 
 }

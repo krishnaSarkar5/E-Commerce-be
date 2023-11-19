@@ -1,6 +1,6 @@
-package com.ecommerce.ecommnerce.category.dto.request;
+package com.ecommerce.ecommnerce.category.dto.response;
 
-import jakarta.persistence.Column;
+
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,10 +8,11 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CategorySearchFiledRequestDto {
+public class CategoryAttributeResponseDto {
+
+    private Long id;
 
     private String field;
 
     private String dataType;
-
 }

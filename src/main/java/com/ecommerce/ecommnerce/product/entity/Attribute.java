@@ -1,5 +1,6 @@
 package com.ecommerce.ecommnerce.product.entity;
 
+import com.ecommerce.ecommnerce.common.model.CreateUpdateInformation;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,14 +21,16 @@ public class Attribute {
 
     private String value;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sub_product_id")
     @JsonManagedReference
     private SubProduct subProduct;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
 
 
+    @Embedded
+    private CreateUpdateInformation createUpdateInformation;
 }

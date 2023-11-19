@@ -11,7 +11,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-public class CategorySearchField {
+public class CategoryAttribute {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

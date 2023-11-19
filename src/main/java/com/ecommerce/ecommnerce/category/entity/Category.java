@@ -37,7 +37,7 @@ public class Category {
 
     @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonBackReference
-    private List<CategorySearchField> searchFields;
+    private List<CategoryAttribute> attributes;
 
 
 

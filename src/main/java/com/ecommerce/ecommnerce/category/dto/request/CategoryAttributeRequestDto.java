@@ -1,5 +1,4 @@
-package com.ecommerce.ecommnerce.category.dto.response;
-
+package com.ecommerce.ecommnerce.category.dto.request;
 
 import lombok.*;
 
@@ -8,11 +7,10 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class CategorySearchFieldResponseDto {
-
-    private Long id;
+public class CategoryAttributeRequestDto {
 
     private String field;
 
     private String dataType;
+
 }

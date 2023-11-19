@@ -1,18 +1,17 @@
 package com.ecommerce.ecommnerce.category.serviceimpl;
 
 import com.ecommerce.ecommnerce.category.dto.request.CategoryAddRequestDto;
-import com.ecommerce.ecommnerce.category.dto.request.CategorySearchFiledRequestDto;
+import com.ecommerce.ecommnerce.category.dto.request.CategoryAttributeRequestDto;
 import com.ecommerce.ecommnerce.category.dto.response.CategoryResponseDto;
 import com.ecommerce.ecommnerce.category.dtoconverter.CategoryDtoConverter;
 import com.ecommerce.ecommnerce.category.entity.Category;
-import com.ecommerce.ecommnerce.category.entity.CategorySearchField;
+import com.ecommerce.ecommnerce.category.entity.CategoryAttribute;
 import com.ecommerce.ecommnerce.category.repository.CategoryRepository;
 import com.ecommerce.ecommnerce.category.service.CategoryService;
 import com.ecommerce.ecommnerce.common.enums.ExceptionMessage;
 import com.ecommerce.ecommnerce.common.enums.Status;
 import com.ecommerce.ecommnerce.common.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +34,12 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = CategoryDtoConverter.convertCategoryAddRequestDtoToEntity(categoryAddRequestDto);
 
-        Optional<List<CategorySearchField>> categorySearchFieldOptional = getCategorySearchField(categoryAddRequestDto.getSearchFields(),category);
+        Optional<List<CategoryAttribute>> categoryAttributeOptional = getCategoryAttribute(categoryAddRequestDto.getSearchFields(),category);
 
-        if(categorySearchFieldOptional.isEmpty()){
-            category.setSearchFields(null);
+        if(categoryAttributeOptional.isEmpty()){
+            category.setAttributes(null);
         }else{
-            category.setSearchFields(categorySearchFieldOptional.get());
+            category.setAttributes(categoryAttributeOptional.get());
         }
 
 
@@ -51,38 +50,39 @@ public class CategoryServiceImpl implements CategoryService {
             if(parentCategory.getRootParentCategoryId().equals(-1L)){
                 category.setRootParentCategoryId(parentCategory.getId());
             }else{
-                category.setRootParentCategoryId(-1L);
+                category.setRootParentCategoryId(parentCategory.getRootParentCategoryId());
             }
 
         }else {
             category.setParentCategoryId(-1L);
+            category.setRootParentCategoryId(-1L);
         }
 
 
         Category savedCategory = categoryRepository.save(category);
 
 
-        CategoryResponseDto categoryResponseDto = CategoryDtoConverter.convertCategoryEntityToResponseDto(category);
+        CategoryResponseDto categoryResponseDto = CategoryDtoConverter.convertCategoryEntityToResponseDto(savedCategory);
 
 
         return categoryResponseDto;
     }
 
 
-    private Optional<List<CategorySearchField>> getCategorySearchField(List<CategorySearchFiledRequestDto> categorySearchFiledRequestDtoList,Category category){
+    private Optional<List<CategoryAttribute>> getCategoryAttribute(List<CategoryAttributeRequestDto> categoryAttributeRequestDtoList, Category category){
 
-        if (Objects.isNull(categorySearchFiledRequestDtoList) || categorySearchFiledRequestDtoList.size()==0){
+        if (Objects.isNull(categoryAttributeRequestDtoList) || categoryAttributeRequestDtoList.size()==0){
             return Optional.empty();
         }
 
-        List<CategorySearchField> searchFieldList = new ArrayList<>();
+        List<CategoryAttribute> attributeList = new ArrayList<>();
 
-        for(CategorySearchFiledRequestDto searchFiledRequestDto : categorySearchFiledRequestDtoList){
-            CategorySearchField searchField = CategoryDtoConverter.convertCategorySearchFieldRequestDtoToEntity(searchFiledRequestDto);
+        for(CategoryAttributeRequestDto searchFiledRequestDto : categoryAttributeRequestDtoList){
+            CategoryAttribute searchField = CategoryDtoConverter.convertCategorySearchFieldRequestDtoToEntity(searchFiledRequestDto);
             searchField.setCategory(category);
-            searchFieldList.add(searchField);
+            attributeList.add(searchField);
         }
-        return Optional.of(searchFieldList);
+        return Optional.of(attributeList);
     }
 
 

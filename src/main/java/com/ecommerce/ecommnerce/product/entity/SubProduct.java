@@ -1,5 +1,6 @@
 package com.ecommerce.ecommnerce.product.entity;
 
+import com.ecommerce.ecommnerce.common.model.CreateUpdateInformation;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -19,14 +20,21 @@ public class SubProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     @JsonManagedReference
     private Product product;
 
-    @OneToMany(mappedBy = "subProduct" , cascade = CascadeType.ALL  , orphanRemoval = true)
+    @OneToMany(mappedBy = "subProduct" , cascade = CascadeType.ALL  /*, orphanRemoval = true*/)
     @JsonBackReference
     private List<Attribute> attributes;
 
-    private String price;
+    private Double price;
+
+    private Double discount;
+
+    private String currency;
+
+    @Embedded
+    private CreateUpdateInformation createUpdateInformation;
 }

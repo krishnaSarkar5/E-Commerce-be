@@ -1,11 +1,11 @@
 package com.ecommerce.ecommnerce.category.dtoconverter;
 
 import com.ecommerce.ecommnerce.category.dto.request.CategoryAddRequestDto;
-import com.ecommerce.ecommnerce.category.dto.request.CategorySearchFiledRequestDto;
+import com.ecommerce.ecommnerce.category.dto.request.CategoryAttributeRequestDto;
 import com.ecommerce.ecommnerce.category.dto.response.CategoryResponseDto;
-import com.ecommerce.ecommnerce.category.dto.response.CategorySearchFieldResponseDto;
+import com.ecommerce.ecommnerce.category.dto.response.CategoryAttributeResponseDto;
 import com.ecommerce.ecommnerce.category.entity.Category;
-import com.ecommerce.ecommnerce.category.entity.CategorySearchField;
+import com.ecommerce.ecommnerce.category.entity.CategoryAttribute;
 import com.ecommerce.ecommnerce.common.enums.Status;
 
 import java.util.ArrayList;
@@ -26,15 +26,15 @@ public class CategoryDtoConverter {
 
     public static CategoryResponseDto convertCategoryEntityToResponseDto(Category category){
 
-        List<CategorySearchField> searchFields = category.getSearchFields();
+        List<CategoryAttribute> searchFields = category.getAttributes();
 
-        List<CategorySearchFieldResponseDto> searchFieldsDtoList = new ArrayList<>();
+        List<CategoryAttributeResponseDto> searchFieldsDtoList = new ArrayList<>();
 
         if(!Objects.isNull(searchFields) && searchFields.size()>0){
 
-            for(CategorySearchField searchField : searchFields){
-                CategorySearchFieldResponseDto categorySearchFieldResponseDto = convertCategorySearchFieldEntityToResponseDto(searchField);
-                searchFieldsDtoList.add(categorySearchFieldResponseDto);
+            for(CategoryAttribute searchField : searchFields){
+                CategoryAttributeResponseDto categoryAttributeResponseDto = convertCategorySearchFieldEntityToResponseDto(searchField);
+                searchFieldsDtoList.add(categoryAttributeResponseDto);
             }
 
 
@@ -51,17 +51,17 @@ public class CategoryDtoConverter {
     }
 
 
-    public static CategorySearchFieldResponseDto convertCategorySearchFieldEntityToResponseDto(CategorySearchField categorySearchField){
-        return CategorySearchFieldResponseDto
+    public static CategoryAttributeResponseDto convertCategorySearchFieldEntityToResponseDto(CategoryAttribute categoryAttribute){
+        return CategoryAttributeResponseDto
                 .builder()
-                .id(categorySearchField.getId())
-                .field(categorySearchField.getField())
-                .dataType(categorySearchField.getDataType())
+                .id(categoryAttribute.getId())
+                .field(categoryAttribute.getField())
+                .dataType(categoryAttribute.getDataType())
                 .build();
     }
 
-    public static CategorySearchField convertCategorySearchFieldRequestDtoToEntity(CategorySearchFiledRequestDto requestDto){
-        return  CategorySearchField
+    public static CategoryAttribute convertCategorySearchFieldRequestDtoToEntity(CategoryAttributeRequestDto requestDto){
+        return  CategoryAttribute
                 .builder()
                 .field(requestDto.getField())
                 .dataType(requestDto.getDataType())

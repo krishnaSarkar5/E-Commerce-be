@@ -19,5 +19,5 @@ public class CategoryResponseDto {
 
     private Long rootParentCategoryId;
 
-    private List<CategorySearchFieldResponseDto> searchFields;
+    private List<CategoryAttributeResponseDto> searchFields;
 }
