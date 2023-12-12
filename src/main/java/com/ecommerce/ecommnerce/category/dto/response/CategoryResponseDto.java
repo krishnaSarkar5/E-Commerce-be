@@ -1,5 +1,6 @@
 package com.ecommerce.ecommnerce.category.dto.response;
 
+import com.ecommerce.ecommnerce.category.entity.Category;
 import lombok.*;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public class CategoryResponseDto {
     private Long rootParentCategoryId;
 
     private List<CategoryAttributeResponseDto> searchFields;
+
+    List<CategoryResponseDto> childCategories;
 }

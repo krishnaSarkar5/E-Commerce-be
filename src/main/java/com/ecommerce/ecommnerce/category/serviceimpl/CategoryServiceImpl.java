@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -78,6 +79,91 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryGetAllResponseDto getAllCategory(AllDataGetRequestDto allDataGetRequestDto) {
         return getCategories(allDataGetRequestDto);
     }
+
+    @Override
+    public CategoryGetAllResponseDto getAllCategoryTree() {
+        List<Category> allCategoryFromDB = getAllCategoryFromDB(null, null);
+        Map<Long, List<CategoryResponseDto>> categoryMap = new HashMap<>();
+
+        for (Category category : allCategoryFromDB) {
+            CategoryResponseDto categoryResponseDto = CategoryDtoConverter.convertCategoryEntityToResponseDto(category);
+            categoryMap.computeIfAbsent(category.getParentCategoryId(), k -> new ArrayList<>())
+                    .add(categoryResponseDto);
+        }
+
+        List<CategoryResponseDto> rootCategories = categoryMap.getOrDefault(-1L, new ArrayList<>());
+        for (CategoryResponseDto rootCategory : rootCategories) {
+            populateChildren(rootCategory, categoryMap);
+        }
+
+        return CategoryGetAllResponseDto.builder()
+                .categoryResponseDtoList(rootCategories)
+                .build();
+    }
+
+    private void populateChildren(CategoryResponseDto categoryResponseDto, Map<Long, List<CategoryResponseDto>> categoryMap) {
+        List<CategoryResponseDto> children = categoryMap.getOrDefault(categoryResponseDto.getId(), new ArrayList<>());
+        for (CategoryResponseDto child : children) {
+            populateChildren(child, categoryMap);
+        }
+        categoryResponseDto.setChildCategories(children);
+    }
+//    public CategoryGetAllResponseDto getAllCategoryTree() {
+//
+//        List<Category> allCategoryFromDB = getAllCategoryFromDB(null, null);
+//
+//        List<Category> rootCategories = allCategoryFromDB.stream().filter(category -> category.getRootParentCategoryId().equals(-1l)).collect(Collectors.toList());
+//
+//        List<CategoryResponseDto> categoryResponseDtoList = new ArrayList<>();
+//
+//        for(Category category : rootCategories){
+//
+//            CategoryResponseDto categoryResponseDto = findChildCategory(category, allCategoryFromDB);
+//
+//            categoryResponseDtoList.add(categoryResponseDto);
+//
+//        }
+//
+//        CategoryGetAllResponseDto categoryGetAllResponseDto = CategoryGetAllResponseDto
+//                .builder()
+//                .categoryResponseDtoList(categoryResponseDtoList)
+//                .build();
+//
+//
+//        return categoryGetAllResponseDto;
+//    }
+//
+//
+//    private CategoryResponseDto findChildCategory(Category parent,List<Category> categoryList){
+//
+//
+//
+//        CategoryResponseDto parentCategoryResponseDto = CategoryDtoConverter.convertCategoryEntityToResponseDto(parent);
+//
+//        List<Category> childList = categoryList.stream().filter(category -> category.getParentCategoryId().equals(parent.getId())).collect(Collectors.toList());
+//
+//
+//
+//        if(childList.isEmpty()){
+//            return parentCategoryResponseDto;
+//        }else{
+//
+//            List<CategoryResponseDto> childCategoryResponseDtoList = new ArrayList<>();
+//
+//            for(Category category : childList){
+//
+//                CategoryResponseDto childCategoryDto = findChildCategory(category, categoryList);
+//
+//                childCategoryResponseDtoList.add(childCategoryDto);
+//
+//            }
+//            parentCategoryResponseDto.setChildCategories(childCategoryResponseDtoList);
+//
+//            return  parentCategoryResponseDto;
+//        }
+//
+//
+//    }
 
 
     private Optional<List<CategoryAttribute>> getCategoryAttribute(List<CategoryAttributeRequestDto> categoryAttributeRequestDtoList, Category category){

@@ -11,10 +11,7 @@ import com.ecommerce.ecommnerce.common.utils.ResponseUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/category")
@@ -39,6 +36,13 @@ public class CategoryController {
     @PostMapping("/get-all-category")
     public  ResponseEntity<CommonResponse> getAllCategories(@RequestBody AllDataGetRequestDto allDataGetRequestDto){
         CategoryGetAllResponseDto allCategory = categoryService.getAllCategory(allDataGetRequestDto);
+
+        return ResponseUtil.success(allCategory);
+    }
+
+    @GetMapping("/get-all-category-tree")
+    public  ResponseEntity<CommonResponse> getAllCategoriesTree(){
+        CategoryGetAllResponseDto allCategory = categoryService.getAllCategoryTree();
 
         return ResponseUtil.success(allCategory);
     }

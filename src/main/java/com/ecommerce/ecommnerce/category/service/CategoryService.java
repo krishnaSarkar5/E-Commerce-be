@@ -13,4 +13,7 @@ public interface CategoryService {
 
     CategoryGetAllResponseDto getAllCategory(AllDataGetRequestDto allDataGetRequestDto);
 
+    CategoryGetAllResponseDto getAllCategoryTree();
+
+
 }
