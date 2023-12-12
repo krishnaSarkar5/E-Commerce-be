@@ -1,6 +1,7 @@
 package com.ecommerce.ecommnerce.product.dto.request;
 
 
+import com.ecommerce.ecommnerce.product.annotations.ImageSize;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +22,9 @@ public class SubProductRequestDto {
     @NotNull(message = "price can not be null")
     private Double price;
 
-//    private String image;
+//    @ImageSize(minSize = 1 , message = "Image should be less than 1 MB ")
+    private String image;
+
     @NotNull(message = "discount can not be null")
     private Double discount;
 

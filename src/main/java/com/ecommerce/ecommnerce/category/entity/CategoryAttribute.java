@@ -17,13 +17,13 @@ public class CategoryAttribute {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "field" , nullable = false )
+    @Column(name = "field" ,columnDefinition = " VARCHAR(255) NOT NULL" )
     private String field;
 
-    @Column(name = "data_type" , nullable = false )
+    @Column(name = "data_type" , columnDefinition = " VARCHAR(255) NOT NULL" )
     private String dataType;
 
-    @Column(name = "status" , nullable = false )
+    @Column(name = "status" , columnDefinition = " smallint NOT NULL" )
     private Byte status;
 
     @Embedded

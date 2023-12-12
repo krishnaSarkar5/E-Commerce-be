@@ -30,6 +30,9 @@ public class Attribute {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    private Long subProductReferenceId;
+
+    private Byte status;
 
     @Embedded
     private CreateUpdateInformation createUpdateInformation;

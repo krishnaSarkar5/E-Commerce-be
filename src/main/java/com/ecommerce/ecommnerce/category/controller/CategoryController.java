@@ -2,8 +2,10 @@ package com.ecommerce.ecommnerce.category.controller;
 
 
 import com.ecommerce.ecommnerce.category.dto.request.CategoryAddRequestDto;
+import com.ecommerce.ecommnerce.category.dto.response.CategoryGetAllResponseDto;
 import com.ecommerce.ecommnerce.category.dto.response.CategoryResponseDto;
 import com.ecommerce.ecommnerce.category.service.CategoryService;
+import com.ecommerce.ecommnerce.common.dto.request.AllDataGetRequestDto;
 import com.ecommerce.ecommnerce.common.response.CommonResponse;
 import com.ecommerce.ecommnerce.common.utils.ResponseUtil;
 import jakarta.validation.Valid;
@@ -32,6 +34,13 @@ public class CategoryController {
             return ResponseUtil.failed("Something wrong");
         }
 
+    }
+
+    @PostMapping("/get-all-category")
+    public  ResponseEntity<CommonResponse> getAllCategories(@RequestBody AllDataGetRequestDto allDataGetRequestDto){
+        CategoryGetAllResponseDto allCategory = categoryService.getAllCategory(allDataGetRequestDto);
+
+        return ResponseUtil.success(allCategory);
     }
 
 

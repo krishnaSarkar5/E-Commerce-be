@@ -16,13 +16,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private LoginService loginService;
     @Override
     public ResponseEntity<CommonResponse> login(LoginRequestDto requestDto) {
-        try {
+//        try {
             String data = loginService.login(requestDto);
             return ResponseUtil.success(data);
 
-        }catch (Exception e){
-            return ResponseUtil.failed("Unsuccessful");
-        }
+//        }catch (Exception e){
+//            return ResponseUtil.failed("Unsuccessful");
+//        }
 
     }
 

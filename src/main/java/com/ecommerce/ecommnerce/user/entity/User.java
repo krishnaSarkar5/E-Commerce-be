@@ -22,28 +22,29 @@ import java.util.List;
 @Setter
 @Entity
 @Builder
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name" , nullable = false)
+    @Column(name = "first_name" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String firstName;
 
-    @Column(name = "last_name" , nullable = false)
+    @Column(name = "last_name" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String lastName;
 
     // encrypted field
-    @Column(name = "email" , nullable = false,unique = true)
+    @Column(name = "email" , columnDefinition = " VARCHAR(255) NOT NULL UNIQUE")
     private String email;
 
 
-    @Column(name = "phone" , nullable = false,unique = true)
+    @Column(name = "phone" ,  columnDefinition = " VARCHAR(255) NOT NULL UNIQUE")
     private String phone;
 
 
-    @Column(name = "password" , nullable = false)
+    @Column(name = "password" ,  columnDefinition = " VARCHAR(255) NOT NULL ")
     @Convert(converter = AttributeEncryptor.class)
     private  String password;
 

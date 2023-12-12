@@ -5,6 +5,8 @@ public enum ExceptionMessage {
     INVALID_ATTRIBUTE("Invalid attribute"),
 
     INVALID_PRODUCT_ID("Invalid product id"),
+
+    INVALID_SUB_PRODUCT_ID("Invalid Sub Product id"),
     INVALID_CURRENCY("Invalid Currency");
 
     private String message;

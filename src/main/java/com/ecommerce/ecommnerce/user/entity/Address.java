@@ -18,25 +18,25 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name" , nullable = false)
+    @Column(name = "first_name" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String firstName;
 
-    @Column(name = "last_name" , nullable = false)
+    @Column(name = "last_name" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String lastName;
 
-    @Column(name = "street_address" , nullable = false)
+    @Column(name = "street_address" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String streetAddress;
 
-    @Column(name = "city" , nullable = false)
+    @Column(name = "city" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String city;
 
-    @Column(name = "state" , nullable = false)
+    @Column(name = "state" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String state;
 
-    @Column(name = "zip_code" , nullable = false)
+    @Column(name = "zip_code" , columnDefinition = " VARCHAR(255) NOT NULL")
     private String zipCod;
 
-    @Column(name = "phone" , nullable = false)
+    @Column(name = "phone" , columnDefinition = " VARCHAR(255) NOT NULL")
     @Phone
     private String phone;
 

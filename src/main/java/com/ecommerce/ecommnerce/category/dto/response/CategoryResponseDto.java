@@ -17,6 +17,8 @@ public class CategoryResponseDto {
 
     private Long parentCategoryId;
 
+    private String parentCategoryTitle;
+
     private Long rootParentCategoryId;
 
     private List<CategoryAttributeResponseDto> searchFields;

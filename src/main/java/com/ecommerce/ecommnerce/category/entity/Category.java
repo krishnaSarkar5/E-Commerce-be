@@ -20,16 +20,19 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title" , nullable = false )
+    @Column(name = "title" , columnDefinition = " VARCHAR(255) NOT NULL" )
     private String title;
 
-    @Column(name = "parent_category_id" , nullable = false )
+    @Column(name = "parent_category_id" , columnDefinition = " BIGINT" )
     private Long parentCategoryId;
 
-    @Column(name = "root_parent_category_id" , nullable = false )
+    @Column(name = "parent_category_title" , columnDefinition = " VARCHAR(255)" )
+    private String parentCategoryTitle;
+
+    @Column(name = "root_parent_category_id" , columnDefinition = " BIGINT NOT NULL" )
     private Long rootParentCategoryId;
 
-    @Column(name = "status" , nullable = false )
+    @Column(name = "status" , columnDefinition = " smallint NOT NULL" )
     private Byte status;
 
     @Embedded

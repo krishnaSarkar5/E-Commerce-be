@@ -25,6 +25,9 @@ public class SubProduct {
     @JsonManagedReference
     private Product product;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "subProduct" , cascade = CascadeType.ALL  /*, orphanRemoval = true*/)
     @JsonBackReference
     private List<Attribute> attributes;
@@ -36,6 +39,10 @@ public class SubProduct {
     private String currency;
 
     private Long stock;
+
+    private Byte status;
+
+    private Long productReferenceId;
 
     @Embedded
     private CreateUpdateInformation createUpdateInformation;

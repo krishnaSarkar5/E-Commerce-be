@@ -34,10 +34,11 @@ public class ProductDtoConverter {
 
                 Attribute attribute = Attribute
                         .builder()
-                        .name(attributeRequestDto.getAttributeName())
+                        .name(attributeEnum.getValue())
                         .value(attributeRequestDto.getAttributeValue())
                         .product(product)
                         .subProduct(subProduct)
+                        .status(Status.ACTIVE.getValue())
                         .build();
                 attributeList.add(attribute);
             }catch (Exception e){
@@ -70,6 +71,8 @@ public class ProductDtoConverter {
                         .currency(currencyEnum.getValue())
                         .discount(subProductRequestDto.getDiscount())
                         .stock(subProductRequestDto.getStock())
+                        .imageUrl(subProductRequestDto.getImage())
+                        .status(Status.ACTIVE.getValue())
 //                        .attributes(attributeList)
                         .product(product)
                         .build();

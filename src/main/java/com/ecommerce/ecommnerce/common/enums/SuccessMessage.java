@@ -1,7 +1,9 @@
 package com.ecommerce.ecommnerce.common.enums;
 
 public enum SuccessMessage {
-    ADDRESS_ADD("Address added successfully");
+    ADDRESS_ADD("Address added successfully"),
+
+    ATTRIBUTE_UPDATED("Attribute updated successfully");
 
 
     private String value;

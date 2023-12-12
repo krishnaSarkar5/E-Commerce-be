@@ -14,16 +14,16 @@ import java.time.LocalDate;
 @Builder
 public class PaymentInformation {
 
-    @Column(name = "card_holder_name",nullable = false)
+    @Column(name = "card_holder_name", columnDefinition = " VARCHAR(255) NOT NULL")
     private String cardHolderName;
 
-    @Column(name = "card_number", nullable = false)
+    @Column(name = "card_number", columnDefinition = " VARCHAR(255) NOT NULL")
     private String cardNumber;
 
-    @Column(name = "expired_at", nullable = false)
+    @Column(name = "expired_at", columnDefinition = " VARCHAR(255) NOT NULL")
     private LocalDate expiredAt;
 
-    @Column(name = "cvv", nullable = false)
+    @Column(name = "cvv", columnDefinition = " VARCHAR(255) NOT NULL")
     private String cvv;
 
 
