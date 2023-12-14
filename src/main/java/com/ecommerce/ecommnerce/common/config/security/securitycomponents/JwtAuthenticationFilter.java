@@ -2,6 +2,8 @@ package com.ecommerce.ecommnerce.common.config.security.securitycomponents;
 
 
 
+import com.ecommerce.ecommnerce.auth.entity.TokenMaintainTable;
+import com.ecommerce.ecommnerce.auth.repository.TokenMaintainRepository;
 import com.ecommerce.ecommnerce.common.config.security.SecurityConfig;
 
 import com.ecommerce.ecommnerce.auth.dto.UserToken;
@@ -26,9 +28,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
@@ -39,8 +39,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	@Autowired
 	private JwtUtils jwtUtils;
 
+	@Autowired
+	private TokenMaintainRepository tokenMaintainRepository;
+
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+
+		final String requestTokenHeader = request.getHeader("authorization");
+
+		System.out.println("++ donot filter ++ "+ requestTokenHeader);
 
 		if(Arrays.asList(SecurityConfig.URLS_THAT_DONT_NEED_AUTHENTICATION).contains(request.getRequestURI()))
 		{
@@ -67,10 +74,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		final String requestTokenHeader = request.getHeader("Authorization");
+		final String requestTokenHeader = request.getHeader("authorization");
 		System.out.println(request.getRequestURI());
 		String mobile = null;
 		String jwtToken = null;
+
+		Enumeration<String> headerNames = request.getHeaderNames();
+
+		while (headerNames.hasMoreElements()){
+			System.out.println(("+-+++  request "+headerNames.nextElement()));
+		}
+
+
+
 		// JWT Token is in the form "Bearer token". Remove Bearer word and get
 		// only the Token
 		logger.info(" incoming token = "+requestTokenHeader);
@@ -152,6 +168,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
 		boolean isTokenValidForActiveUsers = jwtUtils.validateTokenWExpirationValidation(token, userDetails)
 				&& user.getStatus().equals(active);
+
+		// TODO also validate the token from db
+
+		Optional<TokenMaintainTable> tokenDetails = tokenMaintainRepository.findByTokenAndStatus(token, 1);
+
+		if(tokenDetails.isEmpty()){
+			isTokenValidForActiveUsers = false;
+		}
 
 		UserToken principleForUser = getPrinciple(user,token);
 
