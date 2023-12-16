@@ -106,7 +106,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 			} catch (ExpiredJwtException e) {
 				System.out.println("JWT Token has expired");
 //				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token Expired");
-				throw  new AccessDeniedException("Don't have permission");
+				response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid User");
+				return;
 			}
 		} else {
 			logger.warn("JWT Token does not begin with Bearer String");

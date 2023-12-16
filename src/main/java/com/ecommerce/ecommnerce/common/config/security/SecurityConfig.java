@@ -76,7 +76,7 @@ public class SecurityConfig  {
 
                 .authenticationManager(authenticationManager)
                 .csrf(csrf -> csrf.disable())
-
+                .cors(cor->cor.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         //.requestMatchers("/swagger-ui/index.html")
                         .requestMatchers(URLS_THAT_DONT_NEED_AUTHENTICATION).permitAll()
