@@ -21,4 +21,6 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
 
     List<Category> findAllByStatus(Byte status);
 
+    List<Category> findAllByParentCategoryIdInAndStatus(List<Long> categoryIdList,Byte status);
+
 }

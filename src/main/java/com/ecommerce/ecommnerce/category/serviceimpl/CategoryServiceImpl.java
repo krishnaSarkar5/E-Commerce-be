@@ -8,14 +8,19 @@ import com.ecommerce.ecommnerce.category.dtoconverter.CategoryDtoConverter;
 import com.ecommerce.ecommnerce.category.entity.Category;
 import com.ecommerce.ecommnerce.category.entity.CategoryAttribute;
 import com.ecommerce.ecommnerce.category.enums.CategorySortField;
+import com.ecommerce.ecommnerce.category.repository.CategoryAttributeRepository;
 import com.ecommerce.ecommnerce.category.repository.CategoryRepository;
 import com.ecommerce.ecommnerce.category.service.CategoryService;
 import com.ecommerce.ecommnerce.category.specification.CategorySpecifications;
 import com.ecommerce.ecommnerce.common.dto.request.AllDataGetRequestDto;
+import com.ecommerce.ecommnerce.common.dto.request.IdDto;
 import com.ecommerce.ecommnerce.common.enums.ExceptionMessage;
 import com.ecommerce.ecommnerce.common.enums.Status;
+import com.ecommerce.ecommnerce.common.enums.SuccessMessage;
 import com.ecommerce.ecommnerce.common.exception.ServiceException;
 import com.ecommerce.ecommnerce.product.dto.request.SearchCriteria;
+import com.ecommerce.ecommnerce.product.entity.Attribute;
+import com.ecommerce.ecommnerce.product.repository.AttributeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +36,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private CategoryAttributeRepository categoryAttributeRepository;
 
     @Override
     @Transactional
@@ -99,6 +107,28 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryGetAllResponseDto.builder()
                 .categoryResponseDtoList(rootCategories)
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public String deleteCategoryById(IdDto idDto) {
+
+
+        Category category = getCategoryByIdFromDB(idDto.getId());
+
+        List<CategoryAttribute> attributes = getAttributeListOfCategoryByCategoryIdFromDB(idDto.getId());
+
+        for(CategoryAttribute attribute :  attributes){
+            attribute.setStatus(Status.DELETE.getValue());
+        }
+
+        category.setStatus(Status.DELETE.getValue());
+
+        categoryRepository.save(category);
+
+        categoryAttributeRepository.saveAll(attributes);
+
+        return SuccessMessage.DATE_DELETED.getValue();
     }
 
     private void populateChildren(CategoryResponseDto categoryResponseDto, Map<Long, List<CategoryResponseDto>> categoryMap) {
@@ -272,6 +302,13 @@ public class CategoryServiceImpl implements CategoryService {
 
         List<CategoryResponseDto> categoryResponseDtoList = convertCategoryEntityToResponseDto(categoryFromDBWithPage);
 
+        List<Long> categoryIdList = categoryResponseDtoList.stream().map(CategoryResponseDto::getId).collect(Collectors.toList());
+
+        List<Category> categoryList = getCategoryByParentIdIn(categoryIdList);
+
+        checkAndProcessChildCategories(categoryResponseDtoList,categoryList);
+
+
         Map<String, Object> metaData = Map.of("totalSize", categoryFromDB.size());
 
         CategoryGetAllResponseDto responseDto = new CategoryGetAllResponseDto(metaData, categoryResponseDtoList);
@@ -296,6 +333,35 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
 
+    private List<Category> getCategoryByParentIdIn(List<Long> categoryIdList){
+      return  categoryRepository.findAllByParentCategoryIdInAndStatus(categoryIdList,Status.ACTIVE.getValue());
+    }
+
+    private void checkAndProcessChildCategories(List<CategoryResponseDto> categoryResponseDtoList,List<Category> categoryList){
+
+        Map<Long, List<Category>> categoryMap = new HashMap<>();
+
+        for (Category category : categoryList) {
+            categoryMap.computeIfAbsent(category.getParentCategoryId(), k -> new ArrayList<>())
+                    .add(category);
+        }
+
+
+        for(CategoryResponseDto categoryResponseDto : categoryResponseDtoList){
+            if(categoryMap.containsKey(categoryResponseDto.getId())){
+                categoryResponseDto.setNoOfChildCategories(categoryMap.get(categoryResponseDto.getId()).size());
+            }
+        }
+    }
+
+
+    private Category getCategoryByIdFromDB(Long id){
+        return categoryRepository.findByIdAndStatus(id,Status.ACTIVE.getValue()).orElseThrow(()->new ServiceException(ExceptionMessage.CATEGORY_NOT_FOUND.getMessage()));
+    }
+
+    private List<CategoryAttribute> getAttributeListOfCategoryByCategoryIdFromDB(Long categoryId){
+       return categoryAttributeRepository.findByStatusAndCategoryIdAndCategoryStatus(Status.ACTIVE.getValue(), categoryId,Status.ACTIVE.getValue());
+    }
 
 
 }

@@ -6,6 +6,7 @@ import com.ecommerce.ecommnerce.category.dto.response.CategoryGetAllResponseDto;
 import com.ecommerce.ecommnerce.category.dto.response.CategoryResponseDto;
 import com.ecommerce.ecommnerce.category.service.CategoryService;
 import com.ecommerce.ecommnerce.common.dto.request.AllDataGetRequestDto;
+import com.ecommerce.ecommnerce.common.dto.request.IdDto;
 import com.ecommerce.ecommnerce.common.response.CommonResponse;
 import com.ecommerce.ecommnerce.common.utils.ResponseUtil;
 import jakarta.validation.Valid;
@@ -45,6 +46,13 @@ public class CategoryController {
         CategoryGetAllResponseDto allCategory = categoryService.getAllCategoryTree();
 
         return ResponseUtil.success(allCategory);
+    }
+
+
+    @PostMapping("/delete-category")
+    public ResponseEntity<CommonResponse> deleteCategoryById(@RequestBody IdDto idDto){
+        String response = categoryService.deleteCategoryById(idDto);
+        return ResponseUtil.success(response);
     }
 
 

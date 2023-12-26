@@ -22,6 +22,8 @@ public class CategoryResponseDto {
 
     private Long rootParentCategoryId;
 
+    private int noOfChildCategories ;
+
     private List<CategoryAttributeResponseDto> searchFields;
 
     List<CategoryResponseDto> childCategories;

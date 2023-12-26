@@ -9,4 +9,6 @@ public interface AttributeRepository extends JpaRepository<Attribute,Long> {
 
     Optional<Attribute> findByIdAndStatus(Long id,Byte status);
 
+
+
 }

@@ -44,7 +44,7 @@ public class CategoryDtoConverter {
                 .builder()
                 .id(category.getId())
                 .title(category.getTitle())
-                .parentCategoryId(category.getParentCategoryId())
+                .parentCategoryId(category.getParentCategoryId().equals(-1l)?null:category.getParentCategoryId())
                 .rootParentCategoryId(category.getRootParentCategoryId())
                 .searchFields(searchFieldsDtoList)
                 .parentCategoryTitle(category.getParentCategoryTitle())
