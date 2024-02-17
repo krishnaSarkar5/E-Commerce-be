@@ -9,7 +9,7 @@
 
     <!-- File Appender for restCall.log -->
     <appender name="REST_CALL_FILE" class="ch.qos.logback.core.FileAppender">
-        <file>D:/log/ecommerce/restCall.log</file> <!-- Log file location -->
+        <file>/var/log/ecommerce/restCall.log</file> <!-- Log file location -->
         <append>true</append>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
