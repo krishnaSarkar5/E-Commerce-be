@@ -11,7 +11,7 @@
 	<groupId>com.ecommerce</groupId>
 	<artifactId>ecommnerce</artifactId>
 	<version>1.0.0</version>
-	<name>ecommnerce</name>
+	<name>ecommerce</name>
 	<description>Ecommerce backend project</description>
 	<properties>
 		<java.version>17</java.version>
