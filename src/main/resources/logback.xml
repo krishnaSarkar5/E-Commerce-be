@@ -9,7 +9,8 @@
 
     <!-- File Appender for restCall.log -->
     <appender name="REST_CALL_FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/var/log/ecommerce/restCall.log</file> <!-- Log file location -->
+        <!--<file>D:/log/ecommerce/restCall.log</file>--> <!-- Log file location -->
+        <file>/var/log/restCall.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
@@ -17,14 +18,15 @@
     </appender>
 
     <!-- Loggers -->
-    <logger name="com.ecommerce.ecommnerce.aspects.LogAspect" level="DEBUG" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="REST_CALL_FILE"/>
-    </logger>
+<!--    <logger name="com.ecommerce.ecommnerce.aspects.LogAspect" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="REST_CALL_FILE"/>-->
+<!--    </logger>-->
 
     <!-- Root logger -->
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="REST_CALL_FILE"/>
     </root>
 
 </configuration>
